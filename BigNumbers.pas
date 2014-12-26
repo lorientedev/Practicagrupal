@@ -1,25 +1,13 @@
-Program Numeros_Grandes;
+Program BigNumbers;
 
 type
 t_keep_numbers = array[1..50] of char;
+t_keeep_binary = array[1..200] of integer;
 var 
 keep_numbers:t_keep_numbers;
+keep_binary: t_keep_binary;
 operation,number:char;
-
-Procedure ReadNumbers(var keep_numbers:t_keep_numbers);
-var i,a:integer;
-Begin
-  i:=0;
-  repeat
-     i:=i+1;
-     read(numeros);
-     if((ord(numeros)<>10) and (i<=50))then
-        t_numeros[i]:=numeros;
-  until ord(numeros)=10;
-  i:=i-1;
-  if i>50 then
-   i:=50;
-end;
 
 BEGIN
 END.
+
