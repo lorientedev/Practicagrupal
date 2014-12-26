@@ -16,10 +16,10 @@ Function IsANumber(character:char):boolean;
                                                               end;
      else IsANumber:=False;
     end;
-  end;
+  end;{==================FIN ISANUMBER=======================================}
 
 
-Procedure ReadNumbers(var keep_numbers:t_keep_numbers);
+Procedure ReadNumbers(var keep_numbers:t_keep_numbers);{=======================}
 var
 i,a:integer;
 number:char;
@@ -27,9 +27,9 @@ Begin
   i:=0;
   repeat
      read(number);
-     if((ord(number)<>10) and (i<50))then
+     if((ord(number)<>10) and (i<50))then {Compruebo que el number no sea enter}
         begin
-          if(IsANumber(number))then
+          if(IsANumber(number))then {Compruebo si number es un numero }
             begin
               keep_numbers[i]:=number;
               i:=i+1;
@@ -37,7 +37,7 @@ Begin
         end;
 
   until ord(number)=10;
-end;
+end; {====================FIN READNUMBBER======================================}
 
 BEGIN
  ReadNumbers(keep_numbers);
