@@ -1,0 +1,52 @@
+PROGRAM Practica;
+{Un numero entero muy grande no puede ser un 'integer' como siempre hemos hecho pues los enteros tienen un rango
+ con binario es imposible porque, ¿como operamos con eso? , la solucion a mi parecer es pasar de un string a un array de numeros
+ que no rebase 50 e ir calculando digito a digito}
+CONST
+	MIN = 1;
+	MAX = 50;
+TYPE
+	TVectorRange = MIN..MAX;
+	TVector = ARRAY [TVectorRange] OF integer;
+
+{PROCEDURE Pasar_string_entero (}
+
+
+
+VAR
+	x,y : string;
+	operacion: char;
+BEGIN
+	readln(operacion);
+	readln(x); {operador muy grande 1}
+	readln(y); {operador muy grande 2}
+	IF (length (x) OR length (y)) > MAX THEN
+		writeln ('DESBORDAMIENTO')
+	ELSE
+	BEGIN
+		CASE operacion OF
+			'+':BEGIN
+					Pasar_string_entero(x);
+					Pasar_string_entero(y);
+					
+
+			END;
+			'-':BEGIN
+
+			END;
+			'*':BEGIN
+
+			END;
+			'>':BEGIN
+
+			END;
+			'<':BEGIN
+
+			END;
+			'=':BEGIN
+
+			END;
+		END;
+	END;
+	readln();
+END.
