@@ -6,11 +6,11 @@ t_keep_numbers = array[1..50]of integer;
 
 var 
 number_string:string[50];
-big_number1:t_keep_numbers;
-big_number2:t_keep_numbers;
+keep_numbers:t_keep_numbers;
+
 operation:char;
-number1_lenght:integer;
-number2_lenght:integer;
+binary_lenght:integer;
+number_lenght,a:integer;
 
 
 Function IsANumber(character:char):boolean;
@@ -42,10 +42,9 @@ end;
 
 Procedure ReadNumbers(var number_string:string[50]; var number_lenght:integer);{=======================}
 var
-i:integer;
+i,a:integer;
 number:char;
 Begin
-  number_string:='';
   i:=1;
   repeat
      read(number);
@@ -72,23 +71,11 @@ Begin
     end;
 End;
 
- Procedure ShowNumber(big_number:t_keep_numbers; number_lenght:integer);
- var a:integer;
- Begin
-     for a:=1 to number_lenght do
-         write(big_number[a]);
-     writeln();
- End;
 
 BEGIN
- readln(operation);
- ReadNumbers(number_string, number1_lenght);
- big_number1:=numberStringTokeepNumbers(number_string,number1_lenght);
- ReadNumbers(number_string, number2_lenght);
- big_number2:=numberStringTokeepNumbers(number_string,number2_lenght);
+ read(operation);
+ ReadNumbers(number_string, number_lenght);
 
- ShowNumber(big_number1, number1_lenght);
- ShowNumber(big_number2, number2_lenght);
-
+keep_numbers:=numberstringTokeepNumbers(number_string,number_lenght);
 readln();
 END.
