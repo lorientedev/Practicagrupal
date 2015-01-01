@@ -1,13 +1,20 @@
 Program Numeros_Grandes;
 
-type
-
-t_keep_numbers = array[1..50]of integer;
+CONST
+  MIN = 1;
+  MAX = 50;
+TYPE
+  T_keep_numbers = array[MIN..MAX] of integer;
+  T_numbers = RECORD
+    keep_numbers: t_keep_numbers;
+    number_lenght: integer;
+    IsPositive: boolean;
+  END;
 
 var 
 number_string:string[50];
-big_number1:t_keep_numbers;
-big_number2:t_keep_numbers;
+big_number1:T_numbers;
+big_number2:T_numbers;
 operation:char;
 number1_lenght:integer;
 number2_lenght:integer;
@@ -40,7 +47,7 @@ Begin
 end;
 
 
-Procedure ReadNumbers(var number_string:string[50]; var number_lenght:integer);{=======================}
+Procedure ReadNumbers(var number_string:string[50]; var number_lenght:integer; var positive:boolean);{=======================}
 var
 i:integer;
 number:char;
@@ -55,7 +62,9 @@ Begin
             begin
               number_string:=number_string+number;
               i:=i+1;
-            end;
+            end
+            else if(number='-')then
+              positive:=false;
         end;
   until ord(number)=10;
   number_lenght:=i-1;
@@ -82,13 +91,13 @@ End;
 
 BEGIN
  readln(operation);
- ReadNumbers(number_string, number1_lenght);
- big_number1:=numberStringTokeepNumbers(number_string,number1_lenght);
- ReadNumbers(number_string, number2_lenght);
- big_number2:=numberStringTokeepNumbers(number_string,number2_lenght);
+ ReadNumbers(number_string, big_number1.number_lenght,big_number1.Ispositive);
+ big_number1.keep_numbers:=numberStringTokeepNumbers(number_string,big_number1.number_lenght);
+ ReadNumbers(number_string, big_number2.number_lenght, big_number2.Ispositive);
+ big_number2.keep_numbers:=numberStringTokeepNumbers(number_string,big_number2.number_lenght);
 
- ShowNumber(big_number1, number1_lenght);
- ShowNumber(big_number2, number2_lenght);
+ ShowNumber(big_number1.keep_numbers, big_number1.number_lenght);
+ ShowNumber(big_number2.keep_numbers, big_number2.number_lenght);
 
 readln();
 END.
