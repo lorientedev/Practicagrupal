@@ -11,13 +11,11 @@ TYPE
     IsPositive: boolean;
   END;
 
-var 
-number_string:string[50];
-big_number1:T_numbers;
-big_number2:T_numbers;
-operation:char;
-number1_lenght:integer;
-number2_lenght:integer;
+VAR
+  number_string:string[50];
+  big_number1:T_numbers;
+  big_number2:T_numbers;
+  operation:char;
 
 
 Function IsANumber(character:char):boolean;
@@ -44,16 +42,17 @@ Begin
         '9' : CharToInt:=9;
         '0' : CharToInt:=0;
   end;
-end;
+end;{===================END CHARTOINT=======================================}
 
 
-Procedure ReadNumbers(var number_string:string[50]; var number_lenght:integer; var positive:boolean);{=======================}
+Procedure ReadNumbers(var number_string:string[50]; var big_number: T_numbers);{=======================}
 var
-i:integer;
-number:char;
+  i:integer;
+  number:char;
 Begin
   number_string:='';
   i:=1;
+  big_number.Ispositive:=true;
   repeat
      read(number);
      if((ord(number)<>10) and (i<=50))then {Compruebo que el number no sea enter}
@@ -64,40 +63,47 @@ Begin
               i:=i+1;
             end
             else if(number='-')then
-              positive:=false;
+              big_number.Ispositive:=false;
         end;
   until ord(number)=10;
-  number_lenght:=i-1;
+  big_number.number_lenght:=i-1;
 end; {====================FIN READNUMBBER======================================}
 
-Function numberstringTokeepNumbers(number_string:string[50]; number_lenght:integer):t_keep_numbers;
+Function numberstringTokeepNumbers(number_string:string[50]; big_number:T_numbers):t_keep_numbers;
 var a:integer;
 Begin
 
-    for a:=1 to number_lenght do
+    for a:=1 to big_number.number_lenght do
     begin
      numberstringTokeepNumbers[a]:=CharToInt(number_string[a]);
 
     end;
-End;
+End;{============================END NUMBERSTRING TO KEEPNUMBERS===================}
 
- Procedure ShowNumber(big_number:t_keep_numbers; number_lenght:integer);
+ Procedure ShowNumber(big_number:t_numbers);
  var a:integer;
  Begin
-     for a:=1 to number_lenght do
-         write(big_number[a]);
+  if(big_number.IsPositive=false)then
+      write('-');
+     for a:=1 to big_number.number_lenght do
+         write(big_number.keep_numbers[a]);
      writeln();
- End;
+ End;{=====================END SHOWNUMBER==========================================}
 
+
+{*********************COMIENZO DEL CUERPO***********************************}
 BEGIN
  readln(operation);
- ReadNumbers(number_string, big_number1.number_lenght,big_number1.Ispositive);
- big_number1.keep_numbers:=numberStringTokeepNumbers(number_string,big_number1.number_lenght);
- ReadNumbers(number_string, big_number2.number_lenght, big_number2.Ispositive);
- big_number2.keep_numbers:=numberStringTokeepNumbers(number_string,big_number2.number_lenght);
 
- ShowNumber(big_number1.keep_numbers, big_number1.number_lenght);
- ShowNumber(big_number2.keep_numbers, big_number2.number_lenght);
+ ReadNumbers(number_string, big_number1);
+ big_number1.keep_numbers:=numberStringTokeepNumbers(number_string,big_number1);
+
+ ReadNumbers(number_string, big_number2);
+ big_number2.keep_numbers:=numberStringTokeepNumbers(number_string,big_number2);
+
+
+ ShowNumber(big_number1);
+ ShowNumber(big_number2);
 
 readln();
 END.
