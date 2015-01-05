@@ -4,7 +4,7 @@ CONST
   MIN = 1;
   MAX = 50;
 TYPE
-  T_keep_numbers = array[MIN..MAX] of integer;
+  T_keep_numbers = array[MIN..MAX] OF integer;
   T_numbers = RECORD
     keep_numbers: t_keep_numbers;
     length: integer;
@@ -19,224 +19,215 @@ VAR
 
 
 Function IsANumber(character:char):boolean;
-  Begin
-     case character of
-          '1', '2', '3','4','5','6','7','8','9','0' : Begin
+  BEGIN
+     CASE character OF
+          '1', '2', '3','4','5','6','7','8','9','0' : BEGIN
                                                                IsANumber:=true;
-                                                              end;
-     else IsANumber:=False;
-    end;
-  end;{==================FIN ISANUMBER=======================================}
+                                                              END;
+     ELSE IsANumber:=False;
+    END;
+  END;{==================FIN ISANUMBER=======================================}
 
-Function CharToInt(character:char):integer;
-Begin
-  case character of
-        '1' : CharToInt:=1;
-        '2' : CharToInt:=2;
-        '3' : CharToInt:=3;
-        '4' : CharToInt:=4;
-        '5' : CharToInt:=5;
-        '6' : CharToInt:=6;
-        '7' : CharToInt:=7;
-        '8' : CharToInt:=8;
-        '9' : CharToInt:=9;
-        '0' : CharToInt:=0;
-  end;
-end;{===================END CHARTOINT=======================================}
+Function CharTOInt(character:char):integer;
+BEGIN
+  CASE character OF
+        '1' : CharTOInt:=1;
+        '2' : CharTOInt:=2;
+        '3' : CharTOInt:=3;
+        '4' : CharTOInt:=4;
+        '5' : CharTOInt:=5;
+        '6' : CharTOInt:=6;
+        '7' : CharTOInt:=7;
+        '8' : CharTOInt:=8;
+        '9' : CharTOInt:=9;
+        '0' : CharTOInt:=0;
+  END;
+END;{===================END CHARTOINT=======================================}
 
 
-Procedure ReadNumbers(var number_string:string[50]; var big_number: T_numbers);{=======================}
-var
+Procedure ReadNumbers(VAR number_string:string[50]; VAR big_number: T_numbers);{=======================}
+VAR
   i:integer;
   number:char;
-Begin
+BEGIN
   number_string:='';
   i:=1;
   big_number.Ispositive:=true;
   repeat
      read(number);
-     if((ord(number)<>10) and (i<=50))then {Compruebo que el number no sea enter}
-        begin
-          if(IsANumber(number))then {Compruebo si number es un numero }
-            begin
+     IF((ord(number)<>10) and (i<=50))THEN {Compruebo que el number no sea enter}
+        BEGIN
+          IF(IsANumber(number))THEN {Compruebo si number es un numero }
+            BEGIN
               number_string:=number_string+number;
               i:=i+1;
-            end
-            else if(number='-')then
+            END
+            ELSE IF(number='-')THEN
               big_number.Ispositive:=false;
-        end;
+        END;
   until ord(number)=10;
   big_number.length:=i-1;
-end; {====================FIN READNUMBBER======================================}
+END; {====================FIN READNUMBBER======================================}
 
-Function numberstringTokeepNumbers(number_string:string[50]; big_number:T_numbers):t_keep_numbers;
-var a:integer;
-Begin
+Function numberstringTOkeepNumbers(number_string:string[50]; big_number:T_numbers):t_keep_numbers;
+VAR a:integer;
+BEGIN
 
-    for a:=1 to big_number.length do
-    begin
-     numberstringTokeepNumbers[a]:=CharToInt(number_string[a]);
+    FOR a:=1 TO big_number.length DO
+    BEGIN
+     numberstringTOkeepNumbers[a]:=CharTOInt(number_string[a]);
 
-    end;
-End;{============================END NUMBERSTRING TO KEEPNUMBERS===================}
+    END;
+END;{============================END NUMBERSTRING TO KEEPNUMBERS===================}
 
  Procedure ShowNumber(big_number:t_numbers);
- var a:integer;
- Begin
-  if(big_number.IsPositive=false)then
+ VAR a:integer;
+ BEGIN
+  IF(big_number.IsPositive=false)THEN
       write('-');
-     for a:=1 to big_number.length do
+     FOR a:=1 TO big_number.length DO
          write(big_number.keep_numbers[a]);
      writeln();
- End;{=====================END SHOWNUMBER==========================================}
+ END;{=====================END SHOWNUMBER==========================================}
 
 Function IsEqual_without_compare_simbol(number1,number2:T_numbers):boolean;
-var
+VAR
 a:integer;
 
-Begin
+BEGIN
 
-    if(number1.length = number2.length)then
-      begin  
+    IF(number1.length = number2.length)THEN
+      BEGIN  
 
         IsEqual_without_compare_simbol:=true;
-        for a:=1 to number1.length do
-          begin
+        FOR a:=1 TO number1.length DO
+          BEGIN
 
-              if(number1.keep_numbers[a] <> number2.keep_numbers[a])then
+              IF(number1.keep_numbers[a] <> number2.keep_numbers[a])THEN
                   IsEqual_without_compare_simbol:=false;
 
-          end;
+          END;
 
-      end 
-    else
+      END 
+    ELSE
       IsEqual_without_compare_simbol:=FALSE;
 
-End;
+END;
 
 Function IsEqual(number1,number2:T_numbers):boolean;
-begin
+BEGIN
 
-      if (number1.IsPositive = number2.Ispositive)then
+      IF (number1.IsPositive = number2.Ispositive)THEN
           IsEqual:= IsEqual_without_compare_simbol(number1,number2)
-      else
+      ELSE
           IsEqual:=False;
 
-end;
+END;
 
 Function IsSameSimbol(number1,number2:T_numbers):boolean;
-begin
-  If(number1.Ispositive = number2.IsPositive)then
+BEGIN
+  IF(number1.Ispositive = number2.IsPositive)THEN
       IsSameSimbol:=True
-  else
+  ELSE
       IsSameSimbol:=False;
-end;
+END;
+
 Function When_simbol_is_equal_and_positive(number1,number2:T_numbers):boolean;
-var
+VAR
 a:integer;
-begin
+BEGIN
 
     When_simbol_is_equal_and_positive:=FALSE;
-    if(number1.length = number2.length)then
-        begin
+    IF(number1.length = number2.length)THEN
+        BEGIN
 
-            for a:=1 to number1.length do
-                begin
+            FOR a:=1 TO number1.length DO
+                BEGIN
 
-                    if(number1.keep_numbers[a] > number2.keep_numbers[a])then
+                    IF(number1.keep_numbers[a] > number2.keep_numbers[a])THEN
                           When_simbol_is_equal_and_positive:=True;
 
-                end;  
+                END;  
 
-        end
-        else if(number1.length > number2.length)then
+        END
+        ELSE IF(number1.length > number2.length)THEN
                 When_simbol_is_equal_and_positive:=TRUE;
 
-end;
+END;
 Function When_numbers_are_not_equals(number1,number2:T_numbers):boolean;
-begin
+BEGIN
 
-      If (IsSameSimbol(number1,number2))then
-            begin
-                  if(number1.Ispositive=TRUE)then
-                  begin
-
+      IF (IsSameSimbol(number1,number2))THEN
+            BEGIN
+                  IF(number1.Ispositive=TRUE)THEN
+                  BEGIN
                        When_numbers_are_not_equals:=When_simbol_is_equal_and_positive(number1,number2);
-                        
-                  end
-                  else if(number1.IsPositive=False)then
-                  begin
-
+                  END
+                  ELSE IF(number1.IsPositive=False)THEN
+                  BEGIN
                         When_numbers_are_not_equals:=When_simbol_is_equal_and_positive(number2,number1);
-
-                  end;
-            end
-          else if(IsSameSimbol(number1,number2)=FALSE)then
-            begin
+                  END;
+            END
+          ELSE IF(IsSameSimbol(number1,number2)=FALSE)THEN
+            BEGIN
               
-              if(number1.IsPositive)then
+              IF(number1.IsPositive)THEN
                     When_numbers_are_not_equals:=TRUE;
 
-            end;
+            END;
 
-end;
+END;
 Function IsGreather(number1,number2:T_numbers):boolean;
-Begin
+BEGIN
 
-    if( IsEqual(number1,number2) = FALSE )then
-      begin
+    IF( IsEqual(number1,number2) = FALSE )THEN
+      BEGIN
          IsGreather:=When_numbers_are_not_equals(number1,number2);
-      end
+      END
 
-    else
+    ELSE
       IsGreather:=FALSE;
 
-End;
+END;
 
 
-Procedure Operation_Centre(operation:char;var number1: T_numbers; var number2: T_numbers);
-  Begin
+Procedure Operation_Centre(operation:char;VAR number1: T_numbers; VAR number2: T_numbers);
+  BEGIN
 
-      case operation of
-        {'+': Sum(number1,number2);
+      CASE operation OF
+        {'+': Sum(number1,number2); 
+              
+          '-': BEGIN
         
-                '-': Begin
+                  number2.IsPositive:= ! number2.IsPositive;
+                  sum(number1, number2);
         
-                        number2.IsPositive:= ! number2.IsPositive;
-                        sum(number1, number2);
-        
-                     end;
+               END;
         }
-        '=': Begin
-
+        '=': BEGIN
                 writeln(IsEqual(number1,number2));
-        
-             end;
+             END;
 
-        '>': Begin
+        '>': BEGIN
+                 writeln(IsGreather(number1,number2));
+             END; 
         
-                        writeln(IsGreather(number1,number2));
+        '<': BEGIN
+                 writeln(IsGreather(number2,number1));
+            END;
         
-              end; 
-        
-        '<': Begin
-        
-                        writeln(IsGreather(number2,number1));
-        
-              end;
-        
-        end;
-  end;
+        END;
+  END;
 
 {*********************COMIENZO DEL CUERPO***********************************}
 BEGIN
  readln(operation);
 
  ReadNumbers(number_string, big_number1);
- big_number1.keep_numbers:=numberStringTokeepNumbers(number_string,big_number1);
+ big_number1.keep_numbers:=numberStringTOkeepNumbers(number_string,big_number1);
 
  ReadNumbers(number_string, big_number2);
- big_number2.keep_numbers:=numberStringTokeepNumbers(number_string,big_number2);
+ big_number2.keep_numbers:=numberStringTOkeepNumbers(number_string,big_number2);
 
  Operation_centre(operation, big_number1, big_number2);
 
