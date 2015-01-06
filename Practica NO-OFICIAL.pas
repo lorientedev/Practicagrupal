@@ -386,15 +386,11 @@ Procedure Number_position(number1,number2:T_numbers; var Sum:T_numbers);
   END;
 
 Function Sum(number1,number2:T_numbers):T_numbers;
-VAR
-len1, len2:integer;
-a:integer;
+
 BEGIN
     
     Fill_with_Zeroes(Sum);
-    len1:=number1.length;
-    len2:=number2.length;
-    a:=1;
+   
 
     IF IsSameSimbol(number1,number2) THEN
                   
@@ -468,22 +464,23 @@ BEGIN
 END;
 PROCEDURE Check_sign(number1,number2:T_numbers; VAR result:T_numbers);
 BEGIN
-    if(big_number1.Ispositive)then
+    if(number1.Ispositive)then
             begin
-                 if(big_number2.Ispositive)then
+                 if(number2.Ispositive)then
                       result.IsPositive:=true
                  else
                       result.IsPositive:=False;
             end
     else
             begin
-                 if(big_number2.Ispositive)then
+                 if(number2.Ispositive)then
                       result.IsPositive:=False
                  else
                       result.IsPositive:=True;
 
             end;
 END;
+
  Function Reverse(big_number:t_numbers):T_numbers;
  VAR a,b:integer;
  BEGIN
@@ -499,6 +496,7 @@ END;
 
 Function IsZero(number:T_numbers):Boolean;
 BEGIN
+  IsZero:=FALSE;
   if(number.length=1)then
     BEGIN
       if(number.keep_numbers[1]=0)then
@@ -506,6 +504,16 @@ BEGIN
     END;
 
 END;  
+
+Function IsOne(number:T_numbers):Boolean;
+BEGIN
+  IsOne:=False;
+  if(number.length=1)then
+    BEGIN
+      if(number.keep_numbers[1]=1)then
+          IsOne:=TRUE;
+    END;
+END;
 PROCEDURE multiplica(big_number1,big_number2:T_Numbers; VAR result:T_Numbers; VAR overflow: Boolean);
 VAR
   i:integer;
@@ -518,7 +526,15 @@ BEGIN
     result.keep_numbers[1]:=0;
     result.Ispositive:=TRUE;
     END
-  else
+    ELSE IF((IsOne(big_number1)) or (IsOne(big_number2)))THEN
+      BEGIN
+          IF(IsOne(big_number1))THEN
+              result:=big_number2
+          ELSE
+              result:=big_number1;
+
+      END
+    ELSE
   BEGIN
       inicializa(result);
       FOR i:=big_number2.length DOWNTO 1 DO
@@ -547,12 +563,12 @@ result:T_numbers;
       CASE operation OF
         '*': BEGIN
               overflow:=FALSE;
-              Multiplica (big_number1,big_number2,result,overflow);
-
-              IF overflow THEN
-                writeln ('DESBORDAMIENTO')
-              ELSE
-                ShowNumber_reverse(result);
+                                          Multiplica (big_number1,big_number2,result,overflow);
+                            
+                                          IF overflow THEN
+                                            writeln ('DESBORDAMIENTO')
+                                          ELSE
+                                            ShowNumber_reverse(result);
              END;
         '+': BEGIN
 
@@ -562,9 +578,9 @@ result:T_numbers;
              END; 
               
         '-': BEGIN
-        
+         
                   number2.IsPositive:= not number2.IsPositive;
-                  ShowNumber_reverse(sum(number1, number2));
+                                    ShowNumber_reverse(sum(number1, number2));
         
                END;
         
