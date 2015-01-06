@@ -4,6 +4,7 @@ CONST
   MIN = 1;
   MAX = 50;
 TYPE
+
   T_keep_numbers = array[MIN..MAX] OF integer;
   T_numbers = RECORD
     keep_numbers: t_keep_numbers;
@@ -12,7 +13,7 @@ TYPE
   END;
 
 VAR
-  number_string:string[50];
+  number_string:string;
   big_number1:T_numbers;
   big_number2:T_numbers;
   operation:char;
@@ -45,7 +46,7 @@ BEGIN
 END;{===================END CHARTOINT=======================================}
 
 
-Procedure ReadNumbers(VAR number_string:string[50]; VAR big_number: T_numbers);{=======================}
+Procedure ReadNumbers(VAR number_string:string; VAR big_number: T_numbers);{=======================}
 VAR
   i:integer;
   number:char;
@@ -69,7 +70,7 @@ BEGIN
   big_number.length:=i-1;
 END; {====================FIN READNUMBBER======================================}
 
-Function numberstringTOkeepNumbers(number_string:string[50]; big_number:T_numbers):t_keep_numbers;
+Function numberstringTOkeepNumbers(number_string:string; big_number:T_numbers):t_keep_numbers;
 VAR a:integer;
 BEGIN
 
@@ -80,7 +81,7 @@ BEGIN
     END;
 END;{============================END NUMBERSTRING TO KEEPNUMBERS===================}
 
-FUNCTION NumberStringTokeepNumbers_reverse(number_string: string[50]; big_number: T_numbers): t_keep_numbers;
+FUNCTION NumberStringTokeepNumbers_reverse(number_string: string; big_number: T_numbers): t_keep_numbers;
 VAR
   a:integer;
   n:integer;
@@ -495,33 +496,43 @@ END;
         END;
      reverse.length:=big_number.length;
  END;{=====================END SHOWNUMBER==========================================}
+
+Function IsZero(number:T_numbers):Boolean;
+BEGIN
+  if(number.length=1)then
+    BEGIN
+      if(number.keep_numbers[1]=0)then
+          IsZero:=TRUE;
+    END;
+
+END;  
 PROCEDURE multiplica(big_number1,big_number2:T_Numbers; VAR result:T_Numbers; VAR overflow: Boolean);
 VAR
   i:integer;
   s,t:T_Numbers;
 BEGIN
-  inicializa(result);
-  FOR i:=big_number2.length DOWNTO 1 DO
+  
+  if((IsZero(big_number1)) or (IsZero(big_number2)))then
+    BEGIN
+    result.length:=1;
+    result.keep_numbers[1]:=0;
+    result.Ispositive:=TRUE;
+    END
+  else
   BEGIN
-    inicializa(s);
-    multiplica_por_10(result,s, overflow);
-    inicializa(t);
-    multiplica_por_digito(big_number1,big_number2.keep_numbers[i],t, overflow);
-    inicializa(result);
-    write('s= ');
-        ShowNumber_reverse(s);
-        writeln();
-        write('t= ');
-        ShowNumber_reverse(t);
-        writeln();
-        write('result= ');
-        ShowNumber_reverse(result);
-        s.IsPositive:=true;
-        t.IsPositive:=true;
-        result:=(Sum(reverse(s),reverse(t)));
-        write('result2= ');
-        ShowNumber_reverse(result);
-        Check_sign(s,t,result);
+      inicializa(result);
+      FOR i:=big_number2.length DOWNTO 1 DO
+      BEGIN
+        inicializa(s);
+        multiplica_por_10(result,s, overflow);
+        inicializa(t);
+        multiplica_por_digito(big_number1,big_number2.keep_numbers[i],t, overflow);
+        inicializa(result);
+            s.IsPositive:=true;
+            t.IsPositive:=true;
+            result:=(Sum(reverse(s),reverse(t)));
+            Check_sign(s,t,result);
+      END;
   END;
 END;
 
