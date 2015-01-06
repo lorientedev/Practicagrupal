@@ -514,6 +514,49 @@ BEGIN
           IsOne:=TRUE;
     END;
 END;
+
+Function Sum_reverse(number1,number2:T_Numbers):T_Numbers;
+VAR
+a:integer;
+BEGIN
+  a:=1;
+  Fill_with_Zeroes(Sum_reverse);
+  repeat
+
+        IF(a>number1.length)THEN
+          BEGIN
+            Sum_reverse.keep_numbers[a]:= number2.keep_numbers[a] + Sum_reverse.keep_numbers[a];
+          END
+        ELSE IF(a>number2.length)THEN
+          BEGIN  
+           
+            Sum_reverse.keep_numbers[a]:= number1.keep_numbers[a] + Sum_reverse.keep_numbers[a];
+          END
+        ELSE
+          BEGIN
+            Sum_reverse.keep_numbers[a]:= number1.keep_numbers[a] + number2.keep_numbers[a] + Sum_reverse.keep_numbers[a];
+          END;
+       
+
+        IF(Sum_reverse.keep_numbers[a]>10)THEN
+          BEGIN
+            
+            Sum_reverse.keep_numbers[a+1]:= Sum_reverse.keep_numbers[a] DIV 10;
+            Sum_reverse.keep_numbers[a]:=   Sum_reverse.keep_numbers[a] mod 10;
+
+          END;
+          a:=a+1;
+       
+  until( (a>number1.length) and (a>number2.length));
+  Sum_reverse.Ispositive:=TRUE;
+  IF (Sum_reverse.keep_numbers[a]=0)  THEN
+               Sum_reverse.length:=a-1
+            ELSE
+               Sum_reverse.length:=a;
+END; 
+
+
+
 PROCEDURE multiplica(big_number1,big_number2:T_Numbers; VAR result:T_Numbers; VAR overflow: Boolean);
 VAR
   i:integer;
@@ -546,9 +589,9 @@ BEGIN
         inicializa(result);
             s.IsPositive:=true;
             t.IsPositive:=true;
-            result:=(Sum(reverse(s),reverse(t)));
-            Check_sign(s,t,result);
+            result:=Sum(reverse(s),reverse(t));
       END;
+       Check_sign(s,t,result);
   END;
 END;
 
@@ -571,7 +614,7 @@ result:T_numbers;
                                             ShowNumber_reverse(result);
              END;
         '+': BEGIN
-
+                  
                   ShowNumber_reverse(Sum(number1,number2));
 
         
